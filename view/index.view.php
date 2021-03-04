@@ -15,12 +15,22 @@
 <body>
 <?php
 use ProductsApp\Student;
+use ProductsApp\Render;
+
 $vardai = ["Danielius", "Matas", "Edgaras", "Mantas", "Šarunas", "Vaidotas", "Giedrius", "Aidas", "Andrius", "Laurynas"];
 $pavardes = ["Danilauskas", "Skriebys", "Karalius", "Baronas", "Petrauskas", "Vienratis", "Gaidyla", "Centralaitis",
     "Maksimumas", "Sliopaitis"];
+$paz = [rand(4, 10), rand(4, 10), rand(4, 10)];
+$average = array_sum($paz)/count($paz);
+
+function averRage($a, $b, $c){
+    $d = [$a, $b, $c];
+    $vid = array_sum($d)/count($d);
+    $vid = round($vid);
+    return $vid;
+}
 $mokinys = new Student('5b',rand(1,9999), date('Y F jS'), strtoupper($vardai[rand(0, 9)]),
-    strtoupper($pavardes[rand(0, 9)]), [5, 4, 8]);
-$student = (array)$mokinys;
+    strtoupper($pavardes[rand(0, 9)]), averRage(rand(4, 10), rand(4, 10), rand(4, 10)));
 ?>
         <table>
         <tr class="i">
@@ -33,21 +43,11 @@ $student = (array)$mokinys;
         </tr>
             <?php
                 for ($i=0; $i<10;$i++){
-                echo '<tr>';
-                echo "<th>".$student['klase']."</th>";
-                echo "<th>".$student['kodas']."</th>";
-                echo "<th>".$student['date']."</th>";
-                echo "<th>".$student['vardas']."</th>";
-                echo "<th>".$student['pavarde']."</th>";
-                foreach ($student['vertinimai'] as $paz){
-                    $vid = $vid + $paz;
-                }
-                $vid = round($vid / sizeof($student['vertinimai']));
-                echo "<th>".$vid."</th>";
-                $mokinys = new Student('5b',rand(1,9999), date('Y F jS'), strtoupper($vardai[rand(0, 9)]),
-                    strtoupper($pavardes[rand(0, 9)]), [rand(4,10), rand(4, 10), rand(4, 10)]);
-                $student = (array)$mokinys;
-                echo '</tr>';
+                    echo '<tr>';
+                    Render::Show($mokinys->showStudent());
+                    $mokinys = new Student('5b',rand(1,9999), date('Y F jS'), strtoupper($vardai[rand(0, 9)]),
+                        strtoupper($pavardes[rand(0, 9)]), averRage(rand(4, 10), rand(4, 10), rand(4, 10)));
+                    echo '</tr>';
                 }
             ?>
 </table>
